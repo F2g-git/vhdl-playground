@@ -1,0 +1,5 @@
+colorama==0.4.6
+pyGHDL @ git+https://github.com/ghdl/ghdl.git@ea6a2fb29855ca72d7bc3a3c34d528535625d62b
+pyTooling==8.0.3
+pyVHDLModel==0.29.2
+vunit_hdl==5.0.0.dev5
