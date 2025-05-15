@@ -1,0 +1,25 @@
+% ignore ghdl library files:
+*.cf
+
+% ignore ghdl waveform dumps
+*.ghw
+
+% ignore pycache
+__pycache__/
+
+% ignore python env 
+env/
+
+% ignore do_not_track_folder
+misc_do_not_track/
+
+% ignore generated vivado libraries
+xilinx-vivado-ghdl/
+
+% ignore vunit_out directories
+vunit_out/
+**/vunit_out/
+
+% ignore log files 
+*.log
+*.log.*
