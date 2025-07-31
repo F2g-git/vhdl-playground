@@ -25,6 +25,8 @@ lib = vu.add_library("lib")
 
 # Add all files ending in .vhd in current working directory to library
 lib.add_source_files("records_as_interfaces/*.vhd")
+lib.add_source_files("parallel_access_test/*.vhd")
+lib.add_source_files("cheby_testing/*.vhd*")
 
 vu.add_verification_components()
 

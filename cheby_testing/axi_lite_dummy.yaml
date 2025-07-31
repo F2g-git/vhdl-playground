@@ -1,0 +1,23 @@
+memory-map: 
+  bus: axi4-lite-32
+  name: axi_lite_dummy
+  description: A simple example of a register with read and write strobe
+  children:
+    - reg:
+        name: maxis_control
+        comment: Counter control
+        description: This register controls the counter activity.
+        width: 32
+        access: wo
+        x-hdl:
+          write-strobe: True
+          read-ack: True
+    - reg:
+        name: saxis_control
+        comment: Counter control
+        description: This register controls the counter activity.
+        width: 32
+        access: ro
+        x-hdl:
+          write-ack: True
+          read-strobe: True
