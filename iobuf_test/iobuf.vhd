@@ -2,12 +2,13 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 use std.env.all;  -- Required for 'stop'
+
 library UNISIM;
 use UNISIM.vcomponents.all;
 
 entity iobuf_test is 
 
-end entity iobuf_test;
+  end entity iobuf_test;
 
 architecture test of iobuf_test is
   signal clk    : std_logic := '0';
@@ -45,28 +46,28 @@ begin
         when others =>
           w_in <= '0';
           w_out <= '1';
-        end case;
-      end if;
+      end case;
+    end if;
   end process;
-  
-  process
-  begin 
-    tests <= "000";
-    wait for 100 ns;
-    tests <= "001";
-    wait for 100 ns;
-    tests <= "010";
-    wait for 100 ns;
-    tests <= "011";
-    wait for 100 ns;
-    stop;
-  end process;
-
+  --
+  -- process
+  -- begin 
+  --   tests <= "000";
+  --   wait for 100 ns;
+  --   tests <= "001";
+  --   wait for 100 ns;
+  --   tests <= "010";
+  --   wait for 100 ns;
+  --   tests <= "011";
+  --   wait for 100 ns;
+  --   stop;
+  -- end process;
+  --
   iobuf_inst : IOBUF
-    port map (
-      O => w_out,
-      IO => w_io,
-      I => w_in,
-      T => w_t
-    );
-  end architecture test;
+  port map (
+    O => w_out,
+    IO => w_io,
+    I => w_in,
+    T => w_t
+  );
+end architecture test;

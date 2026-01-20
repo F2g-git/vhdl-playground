@@ -1,54 +1,52 @@
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
-library vunit_lib;
-context vunit_lib.vunit_context;
-context vunit_lib.vc_context;
-
 library work;
 use work.interfaces_pkg.all;
-
 entity tb_slave is
-  generic (
-    runner_cfg : STRING
-          );
-end entity tb_slave;
+  end entity tb_slave;
 
 architecture rtl of tb_slave is
- signal clk : std_logic := '0';
- signal w_axi : axi_stream_32_type := (tdata => (others => '0'), tvalid => '0') ;
- signal start_counter : std_logic := '0';
+  signal clk : std_logic := '0';
+  signal tdata : std_logic_vector(31 downto 0 ) := (others => '0'); 
+  signal tvalid : STD_LOGIC := '0';
+  signal w_axi_send : axi_stream_32_type := (tdata => (others => '0'), tvalid => '0',tready=>'0') ;
+  signal w_axi_resp : axi_stream_32_type := (tdata => (others => '0'), tvalid => '0',tready=>'0') ;
+  signal start_counter : std_logic := '0';
 begin
   clk <= not clk after 5 ns;
- proc_name: process
+  proc_name: process
   begin
-    test_runner_setup(runner,runner_cfg);
-    while test_suite loop 
-      if run("Test1") then 
-        wait until rising_edge(clk);
-        wait for 1000 ns;
-        w_axi.tdata <= (others => '0');
-        wait for 300 ns;
-      elsif run("Test2") then
-      end if;
-    end loop;
-    test_runner_cleanup(runner);
+    wait until rising_edge(clk);
+    wait for 1000 ns;
   end process proc_name; 
-  
+
   tdata_counter : process(clk)
   begin
     if rising_edge(clk) then
       start_counter <= '1';
-      w_axi.tdata <= std_logic_vector( unsigned(w_axi.tdata) + 1);
-      if w_axi.tdata(3) = '1' then
-        w_axi.tvalid <= '1';
+      tdata <= std_logic_vector( unsigned(tdata) + 1);
+      if tdata(3) = '1' then
+        tvalid <= '1';
       else 
-        w_axi.tvalid <= '0';
+        tvalid <= '0';
       end if;
     end if;
   end process;
-  uut : entity work.slave 
- port map(
-   s_axi => w_axi
+  w_axi_send.tdata <= tdata;
+  w_axi_send.tvalid <= tvalid;
+  checker_process : process(clk)
+  begin
+    if rising_edge(clk) then
+      if w_axi_send.tvalid = '1' then
+        assert tdata = w_axi_resp.tdata report "The send data did not match the response received" severity FAILURE;
+      end if;
+    end if;
+  end process;
+  uut : entity work.slave
+  port map(
+    i_clk => clk,
+    s_axi => w_axi_send,
+    m_axi => w_axi_resp
   );
 end architecture rtl;

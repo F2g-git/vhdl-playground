@@ -11,4 +11,11 @@ If tristate is high, w_in and w_out are high impedance than the out pin of the I
 
 If tristate is low, o and io are high impedance than the io pin of the IOBUF follows the i pin.
 
+See also this logic table:
+|  T  |  I  | IO  |  O  |
+| --- | --- | --- | --- |
+| 1 | X | Z | IO | 
+| 0 | 1 | 1 | 1 | 
+| 0 | 0 | 0 | 0 | 
+
 
